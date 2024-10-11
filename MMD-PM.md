@@ -44,7 +44,8 @@ flowchart TD
 
     subgraph quatre[Name and description]
         direction LR
-        thirdN[*Italics* **Bold** 
+        thirdN[*Italics* 
+        **Bold** 
         <u>Underline</u>]
         -->
         |"""nodeA[
