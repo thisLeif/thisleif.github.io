@@ -1,5 +1,8 @@
-## Project Management [Flow Charts using Mermaid](https://mermaid.js.org/syntax/flowchart.html)
+## Project Management Flow Charts using Mermaid
 
+
+### Mermaid Markdown, Visualization via JavaScript
+> Source: [Mermaid.JS.Org](https://mermaid.js.org/syntax/flowchart.html)  
 
 ```mermaid
 ---
@@ -8,65 +11,102 @@ title: Mermaid Flow Chart Basics
 flowchart TD
     subgraph un[Node name only]
         direction LR
-        firstNode--"firstNode --> secondNode"-->secondNode
+        firstNode 
+        --> 
+        |"nodeA --> nodeB"
+        | secondNode
     end
 
-    subgraph doux[Name and description]
+    subgraph doux[Text In Connector]
         direction LR
-        thirdN["thirdN[3]"]--"thirdN[3] --> fourthN[4]"-->fourthN["fourthN[4]"]
+        nodeA 
+        -->  
+        |"nodeA 
+        --> 
+        |Text
+        | nodeB"
+        | nodeB
     end
 
     subgraph troix[Connect after declared]
         direction LR
+        fifthNode[nodeA]
+        sixthNode[nodeB]
         fifthNode
-        sixthNode
-        fifthNode--"""
-            fifthNode
-            sixthNode
-            fifthNode-->sixthNode
-        """-->sixthNode
+        -->
+        |"""
+            nodeA
+            nodeB
+            nodeA --> nodeB
+        """
+        |sixthNode
     end
 
-    subgraph quatre[Vary Lines, Styles, Shapes]
+    subgraph quatre[Name and description]
+        direction LR
+        thirdN[*Italics* **Bold** 
+        <u>Underline</u>]
+        -->
+        |"""nodeA[
+        *Italics: 1 asterisk* 
+        **Bold: 2 asterisks** 
+        <u>Underline: HTML tags</u>] 
+        --> 
+        nodeB[First Line
+        Second Line]"""
+        |fourthN["""
+        First Line
+        Second Line"""]
+    end
+
+    subgraph cinque[Vary Lines, Styles, Shapes]
         direction LR
         shapeOne(("((circle))"))
         shapeTwo(["([oval])"])
-        shapeOne-."""
-        shapeOne((circle))
-        shapeTwo([oval])
-        shapeOne-.->shapeTwo
-        """-.->shapeTwo
+        shapeOne
+        -.->
+        |"""
+            nodeA((circle))
+            nodeB([oval])
+            nodeA -.-> nodeB
+        """|shapeTwo
 
         shape3{"{diamond}"}
         shape4[("[(cylinder)]")]
-        shape3~~~|"
-        shape3{diamond}
-        shape4[(cylinder)]
-        shape3~~~|Text|shape4
-        "|shape4
+        shape3
+        ~~~
+        |"
+            nodeA{diamond}
+            nodeB[(cylinder)]
+            nodeA ~~~ nodeB
+        "
+        |shape4
 
-        classDef blueFill fill:#00f;
-        classDef redFill fill:#f00;
-        shp5[blue]o--o|"""
-        classDef blueFill fill:#00f;
-        classDef redFill fill:#f00;
-        shp5[blue]o--oshp6[red]
-        class shp5 blueFill;
-        class shp6 redFill;
-        classDef underLine text-decoration:underline;
-        class shp5,shp6 underLine
-        """|shp6[red]
-        class shp5 blueFill;
-        class shp6 redFill;
-        classDef underLine text-decoration:underline;
-        class shp5,shp6 underLine
-
-        
-
+        classDef bluFill fill:#00f;
+        classDef bluTxt color:#00f;
+        shp5[whtOnBlu]
+        o--o
+        |"""
+        style shp5 color:#fff
+        style shp6 fill:#fff
+        classDef bluFill fill:#00f;
+        classDef bluTxt color:#00f;
+        shp5[whtOnBlu]
+        o--o
+        shp6[bluOnWht]:::bluTxt
+        class shp5 bluFill;
+        classDef str stroke:#f00;
+        class shp5,shp6 str
+        """
+        |shp6[bluOnWht]:::bluTxt
+        class shp5 bluFill;
+        classDef str stroke:#f00;
+        class shp5,shp6 str
+        style shp5 color:#fff
+        style shp6 fill:#fff
     end
 
-    un~~~doux~~~troix~~~quatre
-
-
-
+    un-->doux-->troix-->quatre-->cinque
 ```
+
+### Project Management Flow Charts, Visualizing Workflows  
