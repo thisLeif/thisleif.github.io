@@ -1,3 +1,7 @@
+## Project Management Flow Charts using SVGs
++ [W3 Tutorials](https://www.w3schools.com/graphics/svg_inhtml.asp)
++ [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/SVG_and_CSS)
+
 ## Project Management Flow Charts using Mermaid
 
 
