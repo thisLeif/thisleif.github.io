@@ -83,3 +83,6 @@ Sample `myMappingDict`:
         myCase
     ```
 
+# Result after Testing
+1. Processing many rows causes significant lag.
+1. Reworking to iterate through values within records instead of converting to list for `List.RemoveNulls` still yields significant lag.
