@@ -1,11 +1,84 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="all.css">
 <style>
+  /* The container */
+  .container {										
+  display: block;
+  position: relative;
+  padding-left: 5vw;
+  margin-bottom: 10vh;
+  cursor: pointer;
+  font-size: 22vw;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25vh;
+  width: 25vw;
+  background-color: #eee;
+  border-radius: 50%;
+}
+
+/* TODO update*/
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background-color: #2196F3;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.container .checkmark:after {
+ 	top: 9vh;
+	left: 9vw;
+	width: 8vw;
+	height: 8vh;
+	border-radius: 50%;
+	background: white;
+}
+
 .square {
   height: 30vw;
   width: 30vh;
   background-color: #555;
+}
+.container-1{
+background-color: black;
+position: relative
+}
+.container-1 .placement-1{
+position: absolute
 }
 
 .mask1 {
@@ -17,6 +90,24 @@
 </head>
 <body>
 
+  <h1>Custom Radio Buttons</h1>
+  <label class="container">One
+    <input type="radio" checked="checked" name="radio">
+    <span class="checkmark"></span>
+  </label>
+  <label class="container">Two
+    <input type="radio" name="radio">
+    <span class="checkmark"></span>
+  </label>
+  <label class="container">Three
+    <input type="radio" name="radio">
+    <span class="checkmark"></span>
+  </label>
+  <label class="container">Four
+    <input type="radio" name="radio">
+    <span class="checkmark"></span>
+  </label>
+
 <h1>The mask-image Property</h1>
 
 <h3>An image with a mask layer image:</h3>
@@ -25,7 +116,7 @@
 </div>
 
 <h2>Square CSS</h2>
-<div class="square"></div>
+<div class="square container-1"></div>
 
 <h3>Original image:</h3>
 <img src="img_5terre.jpg" alt="Cinque Terre" width="600" height="400">
