@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <!-- 
+    TODO
+      slow animations for :hover, details?
+      toggle styling mode (dark/light)
+      add checkbox & associated strikethrough styling
+      finish placeholder text
+        drop numbering in main ol #2, provide relatable example use case
+        add external links for further research into WBS usefulness
+
+  -->
+  <title>WBS via CSS & HTML</title>
+  <style>
+    :root {
+      --background:       #0F0E0E;
+      --text:             white;
+      --alt-background:   #321E1E;
+      --alt-text:         white;
+    }
+    body {
+      margin-left: 2em;
+      background-color: var(--background);
+      color: var(--text);
+    }
+    ol, ul {
+      margin-left: 0.7em;
+      padding-left: 0.7em;
+    }
+    ol, ul {
+      counter-reset: section;
+    }
+    ol li::marker {
+      content: counters(section, ".") ": ";
+    }
+    ul li::marker {
+      content: section;
+    }
+    ol li {
+      counter-increment: section;
+    }
+    ol li:hover {
+      font-weight: bold;
+      background-color: var(--alt-background);
+      color: var(--alt-text);
+    }
+    ol, ul {
+      font-weight: normal;
+      background-color: var(--background);
+      color: var(--text);
+    }
+  </style>
+</head>
+<body>
+  <ol>
+    <li>one ─  the list elements inherit the number of their ascendant
+      <ol>
+        <li>one one ─  <p>the numbering-each-descendant sequence is appended in dot notation</p></li>
+        <li>one two ─  lists can be made in markdown and converted to html
+          <ol>
+            <li>one two one ─  basic work breakdown structures can be generated from markdown
+              <ol>
+                <li>one two one one ─  manageable, trackable, adaptive</li>
+              </ol>
+            </li>
+            <li>one two two ─  list items inherit numbering but there can still be more detailed content among items
+			<p><code>one two two note ─  in-line code block giving more detail about preceding item</code></p>
+              <ol>
+                <li>one two two one ─  added content doesn't interrupt numbering structure</li>
+              </ol>
+            </li>
+            <li>one two three ─  </li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li>two ─  
+      <ol>
+        <li>two one ─  </li>
+        <li><details>
+				<summary>two two ─   note (summary and details)</summary>
+				<ol>
+					<li>two two one ─   all nested sections get hidden</li>
+					<li>two two two ─  
+						<ol>
+							<li>two two two one ─   detail can be more or less granular</li>
+						</ol>
+					</li>
+				</ol>
+			</details>
+        </li>
+		<li>two three ─  </li>
+      </ol>
+    </li>
+  </ol>
+</body>
+</html>
