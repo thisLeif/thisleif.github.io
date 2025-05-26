@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <!--  
     TODO
-      toggle styling mode (dark/light)
       provide relatable example use case in #3 list (headers instead of text number values)
       add external links for further research into WBS usefulness
+      make details/summary more obvious
   -->
   <title>WBS via CSS & HTML</title>
   <style>
@@ -24,11 +24,11 @@
       --background-dark:        #181825;
       --text-light:             #181825;
       --text-dark:              #f5f5f5;
-      --alt-background-light:   #c6ced0;
+      --alt-background-light:   #ded6ef;
       --alt-background-dark:    #2d2d2d;
       --alt-text-light:         #181825;
       --alt-text-dark:          #f5f5f5;
-      --focus-background-light: #ded6ef;
+      --focus-background-light: #b7bfea;
       --focus-background-dark:  #3a3a6b;
       --focus-text-light:       #181825;
       --focus-text-dark:        #f5f5f5;
@@ -45,24 +45,20 @@
     #theme-toggle:checked ~ article,
     #theme-toggle:checked ~ label,
     #theme-toggle:checked ~ * {
-      --background: var(--background-light);
-      --text: var(--text-light);
-      --alt-background: var(--alt-background-light);
-      --alt-text: var(--alt-text-light);
-      --focus-background: var(--focus-background-light);
-      --focus-text: var(--focus-text-light);
+      --background: var(--background-light) !important;
+      --text: var(--text-light) !important;
+      --alt-background: var(--alt-background-light) !important;
+      --alt-text: var(--alt-text-light) !important;
+      --focus-background: var(--focus-background-light) !important;
+      --focus-text: var(--focus-text-light) !important;
     }
-    @supports (color-scheme: light dark) {
-      :root {
-        color-scheme: light dark;
-        /* WCAG-compliant, high-contrast color palette for both modes */
-        --background:       light-dark(var(--background-light), var(--background-dark));
-        --text:             light-dark(var(--text-light), var(--text-dark));
-        --alt-background:   light-dark(var(--alt-background-light), var(--alt-background-dark));
-        --alt-text:         light-dark(var(--alt-text-light), var(--alt-text-dark));
-        --focus-background: light-dark(var(--focus-background-light), var(--focus-background-dark));
-        --focus-text:       light-dark(var(--focus-text-light), var(--focus-text-dark));
-      }
+    #theme-toggle:not(:checked) ~ * {
+      --background: var(--background-dark) !important;
+      --text: var(--text-dark) !important;
+      --alt-background: var(--alt-background-dark) !important;
+      --alt-text: var(--alt-text-dark) !important;
+      --focus-background: var(--focus-background-dark) !important;
+      --focus-text: var(--focus-text-dark) !important;
     }
     html, body {
       min-height: 100%;
@@ -130,37 +126,61 @@
       color: var(--focus-text);
     }
 
-    #theme-toggle {
+    #theme-toggle-label {
       position: fixed;
       top: 1em;
       right: 1em;
-      /* Remove button-specific styles, add checkbox label styles */
-      background: none;
-      border: none;
-      padding: 0;
-      color: inherit;
-      cursor: pointer;
+      z-index: 1000;
+      width: 8em;
+      height: 2.2em;
+      font-size: 1em;
+      user-select: none;
+      background: var(--background);
+      color: var(--text);
+      border-radius: 0.5em;
+      transition: background 0.3s, color 0.3s;
       display: flex;
       align-items: center;
-      gap: 0.5em;
-      font-size: 1em;
-      z-index: 10;
-    }
-    #theme-toggle input[type="checkbox"] {
-      accent-color: var(--alt-background);
-      width: 1.2em;
-      height: 1.2em;
+      justify-content: center;
       cursor: pointer;
+      text-align: center;
+      padding: 0;
     }
-    #theme-toggle span {
-      user-select: none;
+    #theme-toggle {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      opacity: 0;
+      cursor: pointer;
+      z-index: 2;
+      /* Only clickable within the label area */
+    }
+    #theme-toggle-label::after {
+      content: "Dark Mode";
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+    #theme-toggle:checked + #theme-toggle-label::after {
+      content: "Light Mode";
     }
   </style>
 </head>
 <body>
-    <input type="checkbox" id="theme-toggle" aria-label="Toggle light mode" style="position:fixed;top:1em;right:1em;z-index:1000;width:2em;height:2em;cursor:pointer;" />
-    <label for="theme-toggle" style="position:fixed;top:1em;right:3.2em;z-index:1000;font-size:1em;user-select:none;background:var(--background);color:var(--text);padding:0.2em 0.6em;border-radius:0.5em;">Light Mode</label>
-    <article>
+  <input type="checkbox" id="theme-toggle" aria-label="Toggle light/dark mode" style="display:none;" />
+  <label id="theme-toggle-label" for="theme-toggle"></label>
+  <article>
     <ol>
       <li>one ─ <p class="focii" tabindex="0">the list elements inherit the number of their ascendant</p>
         <ol>
