@@ -2,98 +2,231 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <!-- 
+  <!--  
     TODO
-      slow animations for :hover, details?
       toggle styling mode (dark/light)
-      add checkbox & associated strikethrough styling
-      finish placeholder text
-        drop numbering in main ol #2, provide relatable example use case
-        add external links for further research into WBS usefulness
-
+      provide relatable example use case in #3 list (headers instead of text number values)
+      add external links for further research into WBS usefulness
   -->
   <title>WBS via CSS & HTML</title>
   <style>
+
+    /* CSS for Work Breakdown Structure (WBS) */
+    /* 
+      This is a simple WBS example using HTML and CSS.
+      The list items are styled to highlight their content.
+      The numbering structure is maintained through nested lists.
+    */
+
+    /* Light/Dark mode support */
     :root {
-      --background:       #0F0E0E;
-      --text:             white;
-      --alt-background:   #321E1E;
-      --alt-text:         white;
+      --background-light:       #e1f5de;
+      --background-dark:        #181825;
+      --text-light:             #181825;
+      --text-dark:              #f5f5f5;
+      --alt-background-light:   #c6ced0;
+      --alt-background-dark:    #2d2d2d;
+      --alt-text-light:         #181825;
+      --alt-text-dark:          #f5f5f5;
+      --focus-background-light: #ded6ef;
+      --focus-background-dark:  #3a3a6b;
+      --focus-text-light:       #181825;
+      --focus-text-dark:        #f5f5f5;
+      --anim-time:        0.3s;
+      /* Default to dark mode */
+      --background: var(--background-dark);
+      --text: var(--text-dark);
+      --alt-background: var(--alt-background-dark);
+      --alt-text: var(--alt-text-dark);
+      --focus-background: var(--focus-background-dark);
+      --focus-text: var(--focus-text-dark);
+    }
+    /* Light mode when checkbox is checked */
+    #theme-toggle:checked ~ article,
+    #theme-toggle:checked ~ label,
+    #theme-toggle:checked ~ * {
+      --background: var(--background-light);
+      --text: var(--text-light);
+      --alt-background: var(--alt-background-light);
+      --alt-text: var(--alt-text-light);
+      --focus-background: var(--focus-background-light);
+      --focus-text: var(--focus-text-light);
+    }
+    @supports (color-scheme: light dark) {
+      :root {
+        color-scheme: light dark;
+        /* WCAG-compliant, high-contrast color palette for both modes */
+        --background:       light-dark(var(--background-light), var(--background-dark));
+        --text:             light-dark(var(--text-light), var(--text-dark));
+        --alt-background:   light-dark(var(--alt-background-light), var(--alt-background-dark));
+        --alt-text:         light-dark(var(--alt-text-light), var(--alt-text-dark));
+        --focus-background: light-dark(var(--focus-background-light), var(--focus-background-dark));
+        --focus-text:       light-dark(var(--focus-text-light), var(--focus-text-dark));
+      }
+    }
+    html, body {
+      min-height: 100%;
+      height: auto;
     }
     body {
       margin-left: 2em;
       background-color: var(--background);
       color: var(--text);
+      padding-bottom: 20vh; /* Default large enough for collapsible content */
+      transition: padding-bottom 0.3s;
     }
+
+    /* Center and size the article */
+    article {
+      max-width: 600px;
+      margin: auto;
+      padding: 1em;
+      background-color: var(--background);
+    }
+
     ol, ul {
       margin-left: 0.7em;
       padding-left: 0.7em;
+      max-width: 90%; /* Restrict horizontal size */
     }
+
     ol, ul {
       counter-reset: section;
     }
+
     ol li::marker {
       content: counters(section, ".") ": ";
     }
+
     ul li::marker {
       content: section;
     }
+
     ol li {
       counter-increment: section;
     }
-    ol li:hover {
-      font-weight: bold;
+
+    .focii {
+      transition: background-color var(--anim-time) ease, color var(--anim-time) ease;
+    }
+    li:hover > .focii,
+    li:has(li:hover) > .focii,
+    li:focus-within > .focii,
+    li > .focii:focus,
+    li > label > .focii:focus {
       background-color: var(--alt-background);
       color: var(--alt-text);
     }
+
     ol, ul {
       font-weight: normal;
       background-color: var(--background);
       color: var(--text);
     }
+
+    li:focus-within > details > summary > .focii,
+    li:focus-within > .focii {
+      background-color: var(--focus-background);
+      color: var(--focus-text);
+    }
+
+    #theme-toggle {
+      position: fixed;
+      top: 1em;
+      right: 1em;
+      /* Remove button-specific styles, add checkbox label styles */
+      background: none;
+      border: none;
+      padding: 0;
+      color: inherit;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+      font-size: 1em;
+      z-index: 10;
+    }
+    #theme-toggle input[type="checkbox"] {
+      accent-color: var(--alt-background);
+      width: 1.2em;
+      height: 1.2em;
+      cursor: pointer;
+    }
+    #theme-toggle span {
+      user-select: none;
+    }
   </style>
 </head>
 <body>
-  <ol>
-    <li>one ─  the list elements inherit the number of their ascendant
-      <ol>
-        <li>one one ─  <p>the numbering-each-descendant sequence is appended in dot notation</p></li>
-        <li>one two ─  lists can be made in markdown and converted to html
-          <ol>
-            <li>one two one ─  basic work breakdown structures can be generated from markdown
+    <input type="checkbox" id="theme-toggle" aria-label="Toggle light mode" style="position:fixed;top:1em;right:1em;z-index:1000;width:2em;height:2em;cursor:pointer;" />
+    <label for="theme-toggle" style="position:fixed;top:1em;right:3.2em;z-index:1000;font-size:1em;user-select:none;background:var(--background);color:var(--text);padding:0.2em 0.6em;border-radius:0.5em;">Light Mode</label>
+    <article>
+    <ol>
+      <li>one ─ <p class="focii" tabindex="0">the list elements inherit the number of their ascendant</p>
+        <ol>
+          <li>one one ─ <p class="focii" tabindex="0">the numbering-each-descendant sequence is appended in dot notation</p></li>
+          <li>one two ─ <p class="focii" tabindex="0">lists can be made in markdown and converted to html</p>
+            <ol>
+              <li>one two one ─ <p class="focii" tabindex="0">basic work breakdown structures can be generated from markdown</p>
+                <ol>
+                  <li>one two one one ─ <p class="focii" tabindex="0">manageable, trackable, adaptive</p></li>
+                </ol>
+              </li>
+              <li>one two two ─ <p class="focii" tabindex="0">list items inherit numbering but there can still be more detailed content among items</p>
+                <p><code>one two two note ─ in-line code block giving more detail about preceding item</code></p>
+                <ol>
+                  <li>one two two one ─ <p class="focii" tabindex="0">added content doesn't interrupt numbering structure</p></li>
+                </ol>
+              </li>
+              <li>one two three ─ <p class="focii" tabindex="0">only the section content within the specified class is being highlighted</p></li>
+            </ol>
+          </li>
+        </ol>
+      </li>
+      <li>two ─ <p class="focii" tabindex="0">second section of list can highlight</p>
+        <ol>
+          <li>two one ─ <p class="focii" tabindex="0">another item</p></li>
+          <li>
+            <details>
+              <summary>two two ─ <p class="focii" tabindex="0">note (summary and details)</p></summary>
               <ol>
-                <li>one two one one ─  manageable, trackable, adaptive</li>
+                <li>two two one ─ <p class="focii" tabindex="0">all nested sections get hidden</p></li>
+                <li>two two two ─ <p class="focii" tabindex="0">this isn't visible until the summary is activated</p>
+                  <ol>
+                    <li>two two two one ─ <p class="focii" tabindex="0">detail can be more or less granular</p></li>
+                  </ol>
+                </li>
               </ol>
-            </li>
-            <li>one two two ─  list items inherit numbering but there can still be more detailed content among items
-			<p><code>one two two note ─  in-line code block giving more detail about preceding item</code></p>
-              <ol>
-                <li>one two two one ─  added content doesn't interrupt numbering structure</li>
-              </ol>
-            </li>
-            <li>one two three ─  </li>
-          </ol>
-        </li>
-      </ol>
-    </li>
-    <li>two ─  
-      <ol>
-        <li>two one ─  </li>
-        <li><details>
-				<summary>two two ─   note (summary and details)</summary>
-				<ol>
-					<li>two two one ─   all nested sections get hidden</li>
-					<li>two two two ─  
-						<ol>
-							<li>two two two one ─   detail can be more or less granular</li>
-						</ol>
-					</li>
-				</ol>
-			</details>
-        </li>
-		<li>two three ─  </li>
-      </ol>
-    </li>
-  </ol>
+            </details>
+          </li>
+          <li>two three ─ <p class="focii" tabindex="0">list items follow an ordered structure. Changes and requirements are more straightforward to track from one version to another so long as insertion between siblings and rearranging is kept to a minimum -- and such changes are documented.</p></li>
+        </ol>
+      </li>
+    </ol>
+  </article>
+  <script>
+  // Theme toggle logic (checkbox version)
+  const toggleCheckbox = document.getElementById('theme-toggle');
+  function setTheme(mode) {
+    if (mode === 'light') {
+      document.documentElement.classList.add('light-mode');
+      document.documentElement.classList.remove('dark-mode');
+      localStorage.setItem('theme', 'light');
+      toggleCheckbox.checked = true;
+    } else {
+      document.documentElement.classList.add('dark-mode');
+      document.documentElement.classList.remove('light-mode');
+      localStorage.setItem('theme', 'dark');
+      toggleCheckbox.checked = false;
+    }
+  }
+  function getPreferredTheme() {
+    return localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  }
+  toggleCheckbox.addEventListener('change', function() {
+    setTheme(toggleCheckbox.checked ? 'light' : 'dark');
+  });
+  setTheme(getPreferredTheme());
+  </script>
 </body>
 </html>
